@@ -2,7 +2,7 @@
   "name": "biangengdan",
   "displayName": "变更单提取",
   "description": "变更单提取",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "cloudhao1999",
   "author": {
     "name": "cloudhao1999",
@@ -29,7 +29,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:biangengdan"
+    "*"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -164,19 +164,23 @@
       "biangengdan-explorer": [
         {
           "id": "biangengdan",
-          "name": "项目变更"
+          "name": "项目变更",
+          "when": "config.svn.enabled && svnOpenRepositoryCount != 0"
         },
         {
           "id": "biangengdanAdd",
-          "name": "新增变更"
+          "name": "新增变更",
+          "when": "config.svn.enabled && svnOpenRepositoryCount != 0"
         },
         {
           "id": "biangengdanModify",
-          "name": "修改变更"
+          "name": "修改变更",
+          "when": "config.svn.enabled && svnOpenRepositoryCount != 0"
         },
         {
           "id": "biangengdanDelete",
-          "name": "删除变更"
+          "name": "删除变更",
+          "when": "config.svn.enabled && svnOpenRepositoryCount != 0"
         }
       ]
     }
