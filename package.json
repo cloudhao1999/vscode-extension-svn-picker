@@ -1,0 +1,213 @@
+{
+  "name": "biangengdan",
+  "displayName": "变更单提取",
+  "description": "变更单提取",
+  "version": "1.0.3",
+  "publisher": "cloudhao1999",
+  "author": {
+    "name": "cloudhao1999",
+    "email": "cyh19991002@gmail.com",
+    "url": "https://github.com/cloudhao1999"
+  },
+  "keywords": [
+    "Subversion",
+    "变更单提取"
+  ],
+  "galleryBanner": {
+    "color": "#41205f",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.51.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudhao1999/biangengdan"
+  },
+  "homepage": "https://github.com/cloudhao1999/biangengdan",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:biangengdan"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "biangengdan-explorer",
+          "title": "变更单视图",
+          "icon": "resources/add.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "biangengdan.refreshEntry",
+        "title": "刷新变更历史",
+        "icon": "$(refresh)"
+      },
+	  {
+        "command": "biangengdan.exportEntry",
+        "title": "生成New文件",
+        "icon": "$(files)"
+      },
+      {
+        "command": "biangengdan.clearAddEntry",
+        "title": "清空记录",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "biangengdan.clearModifyEntry",
+        "title": "清空记录",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "biangengdan.clearDeleteEntry",
+        "title": "清空记录",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "biangengdan.copyAddEntry",
+        "title": "复制记录",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "biangengdan.copyModifyEntry",
+        "title": "复制记录",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "biangengdan.copyDeleteEntry",
+        "title": "复制记录",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "biangengdan.addEntry",
+        "title": "添加到变更单",
+        "icon": "$(add)"
+      },
+      {
+        "command": "biangengdan.deleteEntry",
+        "title": "删除记录",
+        "icon": "$(trash)"
+      }
+    ],
+    "configuration": {
+      "title": "变更单配置",
+      "properties": {
+        "biangengdan.prefixPath": {
+          "type": "string",
+          "default": "/web/front-analy-web/",
+          "description": "svn项目路径前缀"
+        }
+      }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "biangengdan.refreshEntry",
+          "when": "view == biangengdan",
+          "group": "navigation"
+        },
+		{
+			"command": "biangengdan.exportEntry",
+			"when": "view == biangengdan",
+			"group": "navigation"
+		  },
+        {
+          "command": "biangengdan.clearAddEntry",
+          "when": "view == biangengdanAdd",
+          "group": "navigation"
+        },
+        {
+          "command": "biangengdan.clearModifyEntry",
+          "when": "view == biangengdanModify",
+          "group": "navigation"
+        },
+        {
+          "command": "biangengdan.clearDeleteEntry",
+          "when": "view == biangengdanDelete",
+          "group": "navigation"
+        },
+        {
+          "command": "biangengdan.copyAddEntry",
+          "when": "view == biangengdanAdd",
+          "group": "navigation"
+        },
+        {
+          "command": "biangengdan.copyModifyEntry",
+          "when": "view == biangengdanModify",
+          "group": "navigation"
+        },
+        {
+          "command": "biangengdan.copyDeleteEntry",
+          "when": "view == biangengdanDelete",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "biangengdan.addEntry",
+          "when": "view == biangengdan",
+          "group": "inline"
+        },
+        {
+          "command": "biangengdan.deleteEntry",
+          "when": "view == biangengdanAdd || view == biangengdanModify || view == biangengdanDelete",
+          "group": "inline"
+        }
+      ]
+    },
+    "views": {
+      "biangengdan-explorer": [
+        {
+          "id": "biangengdan",
+          "name": "项目变更"
+        },
+        {
+          "id": "biangengdanAdd",
+          "name": "新增变更"
+        },
+        {
+          "id": "biangengdanModify",
+          "name": "修改变更"
+        },
+        {
+          "id": "biangengdanDelete",
+          "name": "删除变更"
+        }
+      ]
+    }
+  },
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.51.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "eslint": "^8.16.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "typescript": "^4.7.2",
+    "ts-loader": "^9.3.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "@vscode/test-electron": "^2.1.3"
+  }
+}
