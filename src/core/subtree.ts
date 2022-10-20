@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import BianGengDan from ".";
 import { getConfiguration, getRootPath } from "../util/config";
 
-export class BianGengDanAddProvider implements vscode.TreeDataProvider<BianGengDan> {
+export class BianGengDanSubtreeProvider implements vscode.TreeDataProvider<BianGengDan> {
     constructor(private itemList?: BianGengDan[]) { }
 
     getTreeItem(element: BianGengDan): vscode.TreeItem {

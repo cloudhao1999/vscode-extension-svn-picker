@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { BianGengDanAddProvider } from './core/subtree';
+import { BianGengDanSubtreeProvider } from './core/subtree';
 import { BianGengDanProvider } from './core/tree';
 import { getRootPath } from './util/config';
 
@@ -10,9 +10,9 @@ export function activate(context: vscode.ExtensionContext) {
 	const rootPath = getRootPath();
 
 	const bianGengDanProvider = new BianGengDanProvider(rootPath!);
-	const bianGengDanAddProvider = new BianGengDanAddProvider([]);
-	const bianGengDanModifyProvider = new BianGengDanAddProvider([]);
-	const bianGengDanDeleteProvider = new BianGengDanAddProvider([]);
+	const bianGengDanAddProvider = new BianGengDanSubtreeProvider([]);
+	const bianGengDanModifyProvider = new BianGengDanSubtreeProvider([]);
+	const bianGengDanDeleteProvider = new BianGengDanSubtreeProvider([]);
 
 	vscode.window.registerTreeDataProvider(
 		'biangengdan',
