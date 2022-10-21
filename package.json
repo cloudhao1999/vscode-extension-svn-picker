@@ -2,7 +2,7 @@
   "name": "biangengdan",
   "displayName": "变更单提取",
   "description": "变更单提取",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "publisher": "cloudhao1999",
   "author": {
     "name": "cloudhao1999",
@@ -29,7 +29,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {
