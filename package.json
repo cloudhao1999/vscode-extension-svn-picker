@@ -2,7 +2,7 @@
   "name": "biangengdan",
   "displayName": "变更单提取",
   "description": "变更单提取",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "publisher": "cloudhao1999",
   "author": {
     "name": "cloudhao1999",
@@ -38,7 +38,7 @@
         {
           "id": "biangengdan-explorer",
           "title": "变更单视图",
-          "icon": "resources/add.svg"
+          "icon": "$(file-symlink-directory)"
         }
       ]
     },
