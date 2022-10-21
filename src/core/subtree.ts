@@ -18,7 +18,7 @@ export class BianGengDanSubtreeProvider implements vscode.TreeDataProvider<BianG
     }
 
     add(item?: BianGengDan) {
-        this.itemList?.push(item!);
+        this.itemList?.find(x => x.fullPathName === item?.fullPathName) ?? this.itemList?.push(item!);
     }
 
     clear() {
