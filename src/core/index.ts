@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 
+// 变更单基础类
 export default class BianGengDan extends vscode.TreeItem {
     constructor(
         public readonly label: string,

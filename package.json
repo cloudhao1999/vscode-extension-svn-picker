@@ -2,7 +2,7 @@
   "name": "biangengdan",
   "displayName": "变更单提取",
   "description": "变更单提取",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "publisher": "cloudhao1999",
   "author": {
     "name": "cloudhao1999",
@@ -48,7 +48,7 @@
         "title": "刷新变更历史",
         "icon": "$(refresh)"
       },
-	  {
+      {
         "command": "biangengdan.exportEntry",
         "title": "生成New文件",
         "icon": "$(files)"
@@ -111,11 +111,11 @@
           "when": "view == biangengdan",
           "group": "navigation"
         },
-		{
-			"command": "biangengdan.exportEntry",
-			"when": "view == biangengdan",
-			"group": "navigation"
-		  },
+        {
+          "command": "biangengdan.exportEntry",
+          "when": "view == biangengdan",
+          "group": "navigation"
+        },
         {
           "command": "biangengdan.clearAddEntry",
           "when": "view == biangengdanAdd",
@@ -195,8 +195,7 @@
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src --ext ts"
   },
   "devDependencies": {
     "@types/vscode": "^1.51.0",

@@ -1,123 +1,60 @@
-import * as vscode from 'vscode';
-import { BianGengDanSubtreeProvider } from './core/subtree';
-import { BianGengDanProvider } from './core/tree';
-import { getRootPath } from './util/config';
+import * as vscode from "vscode";
+import { addEntry, deleteEntry, exportEntryFn } from "./core/entry";
+import provider from "./core/provider";
 
+const {
+	bianGengDanProvider,
+	bianGengDanAddProvider,
+	bianGengDanModifyProvider,
+	bianGengDanDeleteProvider,
+} = provider;
 
+const config = [
+	{ provider: bianGengDanProvider, view: "biangengdan" },
+	{ provider: bianGengDanAddProvider, view: "biangengdanAdd" },
+	{ provider: bianGengDanModifyProvider, view: "biangengdanModify" },
+	{ provider: bianGengDanDeleteProvider, view: "biangengdanDelete" },
+];
+
+const emits = [
+	{ event: vscode.workspace.onDidSaveTextDocument, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
+	{ event: vscode.workspace.onDidCreateFiles, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
+	{ event: vscode.workspace.onDidDeleteFiles, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
+];
+
+const commands = [
+	{ command: "biangengdan.refreshEntry", callback: [bianGengDanProvider.refresh.bind(bianGengDanProvider)], },
+	{ command: "biangengdan.clearAddEntry", callback: [bianGengDanAddProvider.clear.bind(bianGengDanAddProvider), bianGengDanAddProvider.refresh.bind(bianGengDanAddProvider)], },
+	{ command: "biangengdan.clearModifyEntry", callback: [bianGengDanModifyProvider.clear.bind(bianGengDanModifyProvider), bianGengDanModifyProvider.refresh.bind(bianGengDanModifyProvider),], },
+	{ command: "biangengdan.clearDeleteEntry", callback: [bianGengDanDeleteProvider.clear.bind(bianGengDanDeleteProvider), bianGengDanDeleteProvider.refresh.bind(bianGengDanDeleteProvider),], },
+	{ command: "biangengdan.copyAddEntry", callback: [bianGengDanAddProvider.copy.bind(bianGengDanAddProvider)], },
+	{ command: "biangengdan.copyModifyEntry", callback: [bianGengDanModifyProvider.copy.bind(bianGengDanModifyProvider)], },
+	{ command: "biangengdan.copyDeleteEntry", callback: [bianGengDanDeleteProvider.copy.bind(bianGengDanDeleteProvider)], },
+	{ command: "biangengdan.exportEntry", callback: [exportEntryFn] },
+	{ command: "biangengdan.addEntry", callback: [addEntry] },
+	{ command: "biangengdan.deleteEntry", callback: [deleteEntry] },
+];
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const rootPath = getRootPath();
-
-	const bianGengDanProvider = new BianGengDanProvider(rootPath!);
-	const bianGengDanAddProvider = new BianGengDanSubtreeProvider([]);
-	const bianGengDanModifyProvider = new BianGengDanSubtreeProvider([]);
-	const bianGengDanDeleteProvider = new BianGengDanSubtreeProvider([]);
-
-	vscode.window.registerTreeDataProvider(
-		'biangengdan',
-		bianGengDanProvider
-	);
-
-	vscode.window.registerTreeDataProvider(
-		'biangengdanAdd',
-		bianGengDanAddProvider
-	);
-
-	vscode.window.registerTreeDataProvider(
-		'biangengdanModify',
-		bianGengDanModifyProvider
-	);
-
-	vscode.window.registerTreeDataProvider(
-		'biangengdanDelete',
-		bianGengDanDeleteProvider
-	);
-
-
+	config.forEach((item) => {
+		vscode.window.createTreeView(item.view, {
+			treeDataProvider: item.provider,
+		});
+	});
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('biangengdan.refreshEntry', () =>
-			bianGengDanProvider.refresh()
-		),
-		vscode.commands.registerCommand('biangengdan.exportEntry', () => {
-			const options: vscode.OpenDialogOptions = {
-				canSelectMany: false,
-				canSelectFolders: true,
-				canSelectFiles: false,
-				openLabel: 'Open',
-			};
-
-			vscode.window.showOpenDialog(options).then(fileUri => {
-				if (fileUri && fileUri[0]) {
-					console.log('Selected file: ' + fileUri[0].fsPath);
-					const toUri = fileUri[0].fsPath + '/';
-					bianGengDanAddProvider.export(toUri);
-					bianGengDanModifyProvider.export(toUri);
-				}
+		...emits.map((item) => {
+			return item.event(item.fn);
+		}),
+		...commands.map((item) => {
+			return vscode.commands.registerCommand(item.command, (...args) => {
+				item.callback.forEach((fn: (args: any[]) => void) => {
+					fn(args);
+				});
 			});
-
-		}
-		),
-		vscode.commands.registerCommand('biangengdan.clearAddEntry', () => {
-			bianGengDanAddProvider.clear();
-			bianGengDanAddProvider.refresh();
-		}
-		),
-		vscode.commands.registerCommand('biangengdan.clearModifyEntry', () => {
-			bianGengDanModifyProvider.clear();
-			bianGengDanModifyProvider.refresh();
-		}
-		),
-		vscode.commands.registerCommand('biangengdan.clearDeleteEntry', () => {
-			bianGengDanDeleteProvider.clear();
-			bianGengDanDeleteProvider.refresh();
-		}
-		),
-		vscode.commands.registerCommand('biangengdan.copyAddEntry', () =>
-			bianGengDanAddProvider.copy()
-
-		),
-		vscode.commands.registerCommand('biangengdan.copyModifyEntry', () =>
-			bianGengDanModifyProvider.copy()
-		),
-		vscode.commands.registerCommand('biangengdan.copyDeleteEntry', () =>
-			bianGengDanDeleteProvider.copy()
-		),
-		vscode.commands.registerCommand('biangengdan.addEntry', (...args) => {
-			console.log('addEntry arguments value', args[0]);
-			const status = args[0].status;
-
-			if (status === 'A') {
-				bianGengDanAddProvider.add(args[0]);
-				bianGengDanAddProvider.refresh();
-			} else if (status === 'M') {
-				bianGengDanModifyProvider.add(args[0]);
-				bianGengDanModifyProvider.refresh();
-			} else if (status === 'D') {
-				bianGengDanDeleteProvider.add(args[0]);
-				bianGengDanDeleteProvider.refresh();
-			}
-		}
-		),
-		vscode.commands.registerCommand('biangengdan.deleteEntry', (...args) => {
-			const status = args[0].status;
-
-			if (status === 'A') {
-				bianGengDanAddProvider.delete(args[0]);
-				bianGengDanAddProvider.refresh();
-			} else if (status === 'M') {
-				bianGengDanModifyProvider.delete(args[0]);
-				bianGengDanModifyProvider.refresh();
-			} else if (status === 'D') {
-				bianGengDanDeleteProvider.delete(args[0]);
-				bianGengDanDeleteProvider.refresh();
-			}
-		}
-		),
+		})
 	);
 }
 
-export function deactivate() {
-
-}
+export function deactivate() { }
