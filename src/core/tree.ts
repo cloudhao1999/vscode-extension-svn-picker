@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as cp from "child_process";
+import * as path from "path";
 import BianGengDan from ".";
 
 export class BianGengDanProvider implements vscode.TreeDataProvider<BianGengDan> {
@@ -51,10 +52,8 @@ export class BianGengDanProvider implements vscode.TreeDataProvider<BianGengDan>
         return list.filter(i => i.trim() !== '').map((item) => {
             const status = item[0];
             const fullPathName = item.replace(/\s+/, '$').split('$')[1];
-            const filePathArr = fullPathName.split('/');
-            const filePathName = filePathArr[filePathArr.length - 1];
-            console.log('filePathName', filePathName);
-            return new BianGengDan(filePathName, status, fullPathName, vscode.TreeItemCollapsibleState.None);
+            const fileName = path.basename(fullPathName);
+            return new BianGengDan(fileName, status, fullPathName, vscode.TreeItemCollapsibleState.None);
         });
     }
 }
