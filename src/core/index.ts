@@ -12,5 +12,10 @@ export default class BianGengDan extends vscode.TreeItem {
         this.tooltip = `${this.status}: ${this.fullPathName}`;
         this.description = this.fullPathName;
         this.resourceUri = vscode.Uri.file(this.label);
+        this.command = {
+            command: "biangengdan.openFile",
+            title: this.label,
+            arguments: [this.fullPathName]
+        };
     }
 }

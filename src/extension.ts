@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { addEntry, deleteEntry, exportEntryFn } from "./core/entry";
+import { openFile } from "./core/file";
 import provider from "./core/provider";
 
 const {
@@ -33,6 +34,7 @@ const commands = [
 	{ command: "biangengdan.exportEntry", callback: [exportEntryFn] },
 	{ command: "biangengdan.addEntry", callback: [addEntry] },
 	{ command: "biangengdan.deleteEntry", callback: [deleteEntry] },
+	{ command: "biangengdan.openFile", callback: [openFile] },
 ];
 
 export function activate(context: vscode.ExtensionContext) {
@@ -42,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 			treeDataProvider: item.provider,
 		});
 	});
+
 
 	context.subscriptions.push(
 		...emits.map((item) => {
@@ -53,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
 					fn(args);
 				});
 			});
-		})
+		}),
 	);
 }
 

@@ -2,7 +2,7 @@
   "name": "biangengdan",
   "displayName": "变更单提取",
   "description": "变更单提取",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "publisher": "cloudhao1999",
   "author": {
     "name": "cloudhao1999",
@@ -47,6 +47,10 @@
         "command": "biangengdan.refreshEntry",
         "title": "刷新变更历史",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "biangengdan.openFile",
+        "title": "打开文件"
       },
       {
         "command": "biangengdan.exportEntry",
