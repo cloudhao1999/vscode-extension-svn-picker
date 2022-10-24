@@ -1,15 +1,21 @@
 import { getRootPath } from "../util/config";
+import { CountDecorationProvider } from "./decoration";
 import { BianGengDanSubtreeProvider } from "./subtree";
 import { BianGengDanProvider } from "./tree";
 
 const rootPath = getRootPath();
 
 // 数据源
-const provider = {
-     bianGengDanProvider : new BianGengDanProvider(rootPath!),
-	 bianGengDanAddProvider : new BianGengDanSubtreeProvider([]),
-	 bianGengDanModifyProvider : new BianGengDanSubtreeProvider([]),
-	 bianGengDanDeleteProvider : new BianGengDanSubtreeProvider([]),
-};
+const bianGengDanProvider = new BianGengDanProvider(rootPath!);
+const bianGengDanAddProvider = new BianGengDanSubtreeProvider([]);
+const bianGengDanModifyProvider = new BianGengDanSubtreeProvider([]);
+const bianGengDanDeleteProvider = new BianGengDanSubtreeProvider([]);
+const countDecorationProvider = new CountDecorationProvider(bianGengDanProvider);
 
-export default provider;
+export default {
+	bianGengDanProvider,
+	bianGengDanAddProvider,
+	bianGengDanModifyProvider,
+	bianGengDanDeleteProvider,
+	countDecorationProvider,
+};

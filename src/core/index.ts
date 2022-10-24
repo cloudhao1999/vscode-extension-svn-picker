@@ -9,7 +9,7 @@ export default class BianGengDan extends vscode.TreeItem {
         public readonly collapsibleState: vscode.TreeItemCollapsibleState
     ) {
         super(label, collapsibleState);
-        this.tooltip = `${this.status}: ${this.fullPathName}`;
+        this.tooltip = `${this.fullPathName}`;
         this.description = this.fullPathName;
         this.resourceUri = vscode.Uri.file(this.label);
         this.command = {
@@ -17,5 +17,9 @@ export default class BianGengDan extends vscode.TreeItem {
             title: this.label,
             arguments: [this.fullPathName]
         };
+    }
+
+    getStatus(): string {
+        return this.status;
     }
 }

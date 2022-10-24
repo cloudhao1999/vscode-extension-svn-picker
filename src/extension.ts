@@ -8,6 +8,7 @@ const {
 	bianGengDanAddProvider,
 	bianGengDanModifyProvider,
 	bianGengDanDeleteProvider,
+	countDecorationProvider,
 } = provider;
 
 const config = [
@@ -16,6 +17,8 @@ const config = [
 	{ provider: bianGengDanModifyProvider, view: "biangengdanModify" },
 	{ provider: bianGengDanDeleteProvider, view: "biangengdanDelete" },
 ];
+
+const decoration = [countDecorationProvider];
 
 const emits = [
 	{ event: vscode.workspace.onDidSaveTextDocument, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
@@ -47,6 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 	context.subscriptions.push(
+		...decoration,
 		...emits.map((item) => {
 			return item.event(item.fn);
 		}),
