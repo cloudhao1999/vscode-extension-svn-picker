@@ -4,7 +4,7 @@ import { FileDecorationProvider } from "vscode";
 import { getRootPath } from "../util/config";
 import { BianGengDanProvider } from "./tree";
 
-export class CountDecorationProvider implements FileDecorationProvider {
+export class BianGengDanDecorationProvider implements FileDecorationProvider {
 	disposables: vscode.Disposable[];
 	constructor(private provider: BianGengDanProvider) {
 		this.disposables = [];

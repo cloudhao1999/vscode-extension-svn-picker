@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { BianGengDanDecorationProvider } from "./core/decoration";
 import { addEntry, deleteEntry, exportEntryFn } from "./core/entry";
 import { openFile } from "./core/file";
 import provider from "./core/provider";
@@ -8,7 +9,6 @@ const {
 	bianGengDanAddProvider,
 	bianGengDanModifyProvider,
 	bianGengDanDeleteProvider,
-	countDecorationProvider,
 } = provider;
 
 const config = [
@@ -18,7 +18,7 @@ const config = [
 	{ provider: bianGengDanDeleteProvider, view: "biangengdanDelete" },
 ];
 
-const decoration = [countDecorationProvider];
+const decoration = [new BianGengDanDecorationProvider(bianGengDanProvider)];
 
 const emits = [
 	{ event: vscode.workspace.onDidSaveTextDocument, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
