@@ -50,8 +50,9 @@ export class BianGengDanProvider implements vscode.TreeDataProvider<BianGengDan>
     private toTreeFile(res: string) {
         const list = res.split('\n');
         return list.filter(i => i.trim() !== '').map((item) => {
-            const status = item[0];
-            const fullPathName = item.replace(/\s+/, '$').split('$')[1];
+            const filterItem = item.replace(/\r/, '');
+            const status = filterItem[0];
+            const fullPathName = filterItem.replace(/\s+/, '$').split('$')[1];
             const fileName = path.basename(fullPathName);
             return new BianGengDan(fileName, status, fullPathName, vscode.TreeItemCollapsibleState.None);
         });

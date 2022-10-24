@@ -26,7 +26,7 @@ export class BianGengDanSubtreeProvider implements vscode.TreeDataProvider<BianG
     }
 
     copy() {
-        const textArr = this.itemList!.map(x => `${getConfiguration('prefixPath') + x.fullPathName}`.replace(/\\\\/g, "/").replace(/\\r/g, ""));
+        const textArr = this.itemList!.map(x => path.join(getConfiguration('prefixPath'), x.fullPathName).replace(/\\/g, '/'));
         vscode.env.clipboard.writeText(textArr.join("\r\n"));
     }
 
