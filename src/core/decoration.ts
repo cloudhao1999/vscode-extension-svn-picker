@@ -15,7 +15,7 @@ export class CountDecorationProvider implements FileDecorationProvider {
 		const treeItem = await this.provider.getChildren();
 		const status = treeItem.find((item) => {
 			let from = path.join(getRootPath(),'./', item.fullPathName);
-			return from.includes(uri.fsPath.replace(/\\/g, '/'));
+			return from.includes(uri.fsPath.replace(/\\/g, '\\'));
 		})?.getStatus();
 		if (status) {
 			return {
