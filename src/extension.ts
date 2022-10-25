@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { BianGengDanDecorationProvider } from "./core/decoration";
 import { addEntry, deleteEntry, exportEntryFn } from "./core/entry";
 import { openFile } from "./core/file";
-import provider from "./core/provider";
+import provider, { refreshTitle, treeViewProvider } from "./core/provider";
 
 const {
 	bianGengDanProvider,
@@ -42,14 +42,13 @@ const commands = [
 
 export function activate(context: vscode.ExtensionContext) {
 
-	config.forEach((item) => {
-		vscode.window.createTreeView(item.view, {
-			treeDataProvider: item.provider,
-		});
-	});
-
-
 	context.subscriptions.push(
+		...config.map((item) => {
+			treeViewProvider[item.view] = vscode.window.createTreeView(item.view, {
+				treeDataProvider: item.provider,
+			});
+			return treeViewProvider[item.view];
+		}),
 		...decoration,
 		...emits.map((item) => {
 			return item.event(item.fn);
@@ -62,6 +61,8 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 		}),
 	);
+
+	refreshTitle();
 }
 
 export function deactivate() { }

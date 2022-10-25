@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import BianGengDan from ".";
 import { getConfiguration, getRootPath } from "../util/config";
+import { refreshTitle } from "./provider";
 
 export class BianGengDanSubtreeProvider implements vscode.TreeDataProvider<BianGengDan> {
     constructor(private itemList?: BianGengDan[]) { }
@@ -54,6 +55,7 @@ export class BianGengDanSubtreeProvider implements vscode.TreeDataProvider<BianG
         ._onDidChangeTreeData.event;
 
     refresh(): void {
+        refreshTitle();
         this._onDidChangeTreeData.fire(undefined);
     }
 

@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import * as cp from "child_process";
 import * as path from "path";
 import BianGengDan from ".";
+import { refreshTitle } from "./provider";
 
 export class BianGengDanProvider implements vscode.TreeDataProvider<BianGengDan> {
     constructor(private workspaceRoot: string) { }
@@ -35,6 +36,7 @@ export class BianGengDanProvider implements vscode.TreeDataProvider<BianGengDan>
         ._onDidChangeTreeData.event;
 
     refresh(): void {
+        refreshTitle();
         this._onDidChangeTreeData.fire(undefined);
     }
 
