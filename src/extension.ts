@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as _ from "lodash";
 import { BianGengDanDecorationProvider } from "./core/decoration";
 import { addEntry, deleteEntry, exportEntryFn } from "./core/entry";
 import { openFile } from "./core/file";
@@ -20,10 +21,13 @@ const config = [
 
 const decoration = [new BianGengDanDecorationProvider(bianGengDanProvider)];
 
+const refreshDebounce = _.debounce(bianGengDanProvider.refresh.bind(bianGengDanProvider), 1500);
+
 const emits = [
-	{ event: vscode.workspace.onDidSaveTextDocument, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
-	{ event: vscode.workspace.onDidCreateFiles, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
-	{ event: vscode.workspace.onDidDeleteFiles, fn: bianGengDanProvider.refresh.bind(bianGengDanProvider) },
+	{ event: vscode.workspace.onDidSaveTextDocument, fn: refreshDebounce },
+	{ event: vscode.workspace.onDidCreateFiles, fn: refreshDebounce },
+	{ event: vscode.workspace.onDidDeleteFiles, fn: refreshDebounce },
+	{ event: vscode.workspace.onDidChangeTextDocument, fn: refreshDebounce },
 ];
 
 const commands = [
